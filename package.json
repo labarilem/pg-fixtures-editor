@@ -1,0 +1,42 @@
+{
+  "name": "pg-fixtures-editor",
+  "version": "1.0.0",
+  "description": "Uutilities to edit SQL fixtures for Postgres databases",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/labarilem/pg-fixtures-editor.git"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "test": "node --require ts-node/register --test test/**/*.test.ts"
+  },
+  "keywords": [
+    "pg",
+    "postgres",
+    "postgresql",
+    "pgsql",
+    "sql",
+    "db",
+    "database",
+    "fixtures"
+  ],
+  "author": "labarilem",
+  "license": "MIT",
+  "dependencies": {
+    "pgsql-ast-parser": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "bugs": {
+    "url": "https://github.com/labarilem/pg-fixtures-editor/issues"
+  },
+  "homepage": "https://github.com/labarilem/pg-fixtures-editor#readme"
+}
