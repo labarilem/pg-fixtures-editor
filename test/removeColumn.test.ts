@@ -9,7 +9,7 @@ describe("removeColumn", () => {
       assertInputToOutput(
         `INSERT INTO "userAccounts" (id, name, email) VALUES (1, 'John', 'john@example.com')`,
         "email",
-        `INSERT INTO "userAccounts"  (id, name) VALUES ((1), ('John'))`
+        `INSERT INTO "userAccounts" (id, name) VALUES\n  ((1), ('John'))`
       );
     });
 
@@ -17,7 +17,7 @@ describe("removeColumn", () => {
       assertInputToOutput(
         `INSERT INTO "userAccounts" (id, name, email) VALUES (1, 'John', 'john@example.com'), (2, 'Jane', 'jane@example.com')`,
         "email",
-        `INSERT INTO "userAccounts"  (id, name) VALUES ((1), ('John')), ((2), ('Jane'))`
+        `INSERT INTO "userAccounts" (id, name) VALUES\n  ((1), ('John')),\n  ((2), ('Jane'))`
       );
     });
 
@@ -27,7 +27,7 @@ describe("removeColumn", () => {
         (1, 'John', 'john@example.com'::"custom_email"),
         (2, 'Jane', 'jane@example.com'::"custom_email")`,
         "email",
-        `INSERT INTO users  (id, name) VALUES ((1), ('John')), ((2), ('Jane'))`
+        `INSERT INTO users (id, name) VALUES\n  ((1), ('John')),\n  ((2), ('Jane'))`
       );
     });
 
@@ -37,7 +37,7 @@ describe("removeColumn", () => {
         (1, 'Widget', 10.00, price * 1.2),
         (2, 'Gadget', 20.00, price * 1.2)`,
         "total",
-        `INSERT INTO products  (id, name, price) VALUES ((1), ('Widget'), (10.)), ((2), ('Gadget'), (20.))`
+        `INSERT INTO products (id, name, price) VALUES\n  ((1), ('Widget'), (10.)),\n  ((2), ('Gadget'), (20.))`
       );
     });
 
@@ -45,16 +45,16 @@ describe("removeColumn", () => {
       assertInputToOutput(
         `INSERT INTO users (id, name) VALUES (1, 'John')`,
         "email",
-        `INSERT INTO users  (id, name) VALUES ((1), ('John'))`
+        `INSERT INTO users (id, name) VALUES\n  ((1), ('John'))`
       );
     });
 
     test("handles quoted identifiers", () => {
       assertInputToOutput(
-        `INSERT INTO "user_data" ("user_id", "full_name", "email_address") VALUES (1, 'John Doe', 'john@example.com')`,
-        "email_address",
-        `INSERT INTO user_data  (user_id, full_name) VALUES ((1), ('John Doe'))`
-      );
+        `INSERT INTO "user_data" ("userId", "fullName", "emailAddress") VALUES (1, 'John Doe', 'john@example.com')`,
+        "emailAddress",
+        `INSERT INTO user_data (userId, fullName) VALUES\n  ((1), ('John Doe'))`
+      );  
     });
 
     test("throws error on invalid SQL", () => {
@@ -66,7 +66,7 @@ describe("removeColumn", () => {
       assertInputToOutput(
         `INSERT INTO users (id, name, email) VALUES (1, NULL, 'john@example.com')`,
         "name",
-        `INSERT INTO users  (id, email) VALUES ((1), ('john@example.com'))`
+        `INSERT INTO users (id, email) VALUES\n  ((1), ('john@example.com'))`
       );
     });
 
@@ -76,7 +76,7 @@ describe("removeColumn", () => {
         (1, 'O''Connor', 'oconnor@example.com'),
         (2, 'Smith; DROP TABLE users;', 'smith@example.com')`,
         "email",
-        `INSERT INTO users  (id, name) VALUES ((1), ('O''Connor')), ((2), ('Smith; DROP TABLE users;'))`
+        `INSERT INTO users (id, name) VALUES\n  ((1), ('O''Connor')),\n  ((2), ('Smith; DROP TABLE users;'))`
       );
     });
   });

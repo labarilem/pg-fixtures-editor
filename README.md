@@ -41,6 +41,7 @@ Some quirks:
 
 - At the moment, comments are not preserved.
 - Spacing and formatting is not always preserved.
+- The output SQL aims to be human readable when possible (e.g. multi-line `INSERT` statements).
 
 Hopefully those quirks shouldn't matter too much when editing SQL fixtures.
 

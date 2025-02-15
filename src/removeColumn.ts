@@ -1,4 +1,39 @@
-import { astMapper, InsertStatement, parse, toSql } from "pgsql-ast-parser";
+import {
+  astMapper,
+  IAstToSql,
+  InsertStatement,
+  parse,
+  toSql,
+} from "pgsql-ast-parser";
+
+const humanReadableFormatter: IAstToSql = {
+  ...toSql,
+  statement: (stmt) => {
+    // Delegate to our custom insert handler for insert statements
+    if (stmt.type === "insert") {
+      return humanReadableFormatter.insert(stmt);
+    }
+    // For other statement types, use the default handler
+    return toSql.statement(stmt);
+  },
+  insert: (stmt) => {
+    const columns = stmt.columns
+      ? `(${stmt.columns.map((c) => c.name).join(", ")})`
+      : "";
+
+    if (stmt.insert.type === "values") {
+      const values = stmt.insert.values
+        .map((row) => `  (${row.map((v) => toSql.expr(v)).join(", ")})`)
+        .join(",\n");
+
+      const table = toSql.tableRef(stmt.into);
+      return `INSERT INTO ${table} ${columns} VALUES\n${values}`;
+    }
+
+    // Handle other insert types (like INSERT ... SELECT)
+    return toSql.insert(stmt);
+  },
+};
 
 /**
  * Removes a column from PosgreSQL code.
@@ -47,7 +82,7 @@ export function removeColumn(columnName: string, sql: string): string {
     .map((stmt) => {
       const mapped = mapper.statement(stmt);
       if (!mapped) throw new Error("Failed to modify AST");
-      return toSql.statement(mapped);
+      return humanReadableFormatter.statement(mapped);
     })
     .join("\n");
 }
