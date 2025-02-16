@@ -50,6 +50,5 @@ Hopefully those quirks shouldn't matter too much when editing SQL fixtures.
 Publish a new version:
 
 ```bash
-npm run build
-npm publish
+npm run publish
 ```

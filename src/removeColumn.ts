@@ -6,6 +6,17 @@ import {
   toSql,
 } from "pgsql-ast-parser";
 
+const getEndingCharsToPreserve = (sql: string) => {
+  const toPreserve = ["\n", " ", "\t", ";"];
+  let i = sql.length - 1;
+  let endingChars = "";
+  while (toPreserve.includes(sql[i])) {
+    endingChars = sql[i] + endingChars;
+    i--;
+  }
+  return endingChars;
+};
+
 const humanReadableFormatter: IAstToSql = {
   ...toSql,
   statement: (stmt) => {
@@ -78,11 +89,14 @@ export function removeColumn(columnName: string, sql: string): string {
   }));
 
   const statements = parse(sql);
-  return statements
-    .map((stmt) => {
-      const mapped = mapper.statement(stmt);
-      if (!mapped) throw new Error("Failed to modify AST");
-      return humanReadableFormatter.statement(mapped);
-    })
-    .join("\n");
+  const endingChars = getEndingCharsToPreserve(sql);
+  return (
+    statements
+      .map((stmt) => {
+        const mapped = mapper.statement(stmt);
+        if (!mapped) throw new Error("Failed to modify AST");
+        return humanReadableFormatter.statement(mapped);
+      })
+      .join("\n") + endingChars
+  );
 }

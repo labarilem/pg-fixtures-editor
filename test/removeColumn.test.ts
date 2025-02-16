@@ -79,5 +79,13 @@ describe("removeColumn", () => {
         `INSERT INTO users (id, name) VALUES\n  ((1), ('O''Connor')),\n  ((2), ('Smith; DROP TABLE users;'))`
       );
     });
+
+    test("preserves end of input formatting", () => {
+      assertInputToOutput(
+        `INSERT INTO "userAccounts" (id, email) VALUES (1, 'john@example.com');\n  `,
+        "email",
+        `INSERT INTO "userAccounts" (id) VALUES\n  ((1));\n  `
+      );
+    });
   });
 });
