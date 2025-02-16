@@ -47,8 +47,20 @@ Hopefully those quirks shouldn't matter too much when editing SQL fixtures.
 
 ## Development
 
+Build the project:
+
+```bash
+npm run build
+```
+
+Run tests:
+
+```bash
+npm test
+```
+
 Publish a new version:
 
 ```bash
-npm run publish
+npm run pub
 ```

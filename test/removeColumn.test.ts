@@ -51,10 +51,10 @@ describe("removeColumn", () => {
 
     test("handles quoted identifiers", () => {
       assertInputToOutput(
-        `INSERT INTO "user_data" ("userId", "fullName", "emailAddress") VALUES (1, 'John Doe', 'john@example.com')`,
+        `INSERT INTO "userData" ("userId", "fullName", "emailAddress") VALUES (1, 'John Doe', 'john@example.com')`,
         "emailAddress",
-        `INSERT INTO user_data (userId, fullName) VALUES\n  ((1), ('John Doe'))`
-      );  
+        `INSERT INTO "userData" ("userId", "fullName") VALUES\n  ((1), ('John Doe'))`
+      );
     });
 
     test("throws error on invalid SQL", () => {
