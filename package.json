@@ -1,6 +1,6 @@
 {
   "name": "pg-fixtures-editor",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Utilities to edit SQL fixtures for Postgres databases",
   "repository": {
     "type": "git",
