@@ -13,6 +13,7 @@ Have you ever had to edit a SQL fixture after a DB schema migration? If you have
 The API of this library exposes these functions:
 
 - `removeColumn`: removes a column from `INSERT` statements.
+- `addColumn`: adds a column and its value to `INSERT` statements. Note that the value will be emitted "as is", so you need to include proper quoting and escaping if needed. Example: to insert a SQL string, you need to pass `'your string'` as columnValue (i.e. enclosed with single quotes).
 
 ## Installation
 
